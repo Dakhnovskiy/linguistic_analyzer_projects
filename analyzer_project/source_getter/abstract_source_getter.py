@@ -8,7 +8,7 @@ from tempfile import gettempdir
 from uuid import uuid4
 
 
-class AbstractGetterSource:
+class AbstractSourceGetter:
     __metaclass__ = ABCMeta
 
     def __init__(self):

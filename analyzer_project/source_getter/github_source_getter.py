@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Dmitriy.Dakhnovskiy'
 
-from .abstract_getter_source import AbstractGetterSource
+from .abstract_source_getter import AbstractSourceGetter
 from git import Repo
 
 
-class GithubGetterSource(AbstractGetterSource):
+class GithubSourceGetter(AbstractSourceGetter):
 
     def __init__(self):
-        super(GithubGetterSource).__init__(self)
+        super().__init__(self)
 
     def _get_source(self, repo_url, repo_dir):
         """
