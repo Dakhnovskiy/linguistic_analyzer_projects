@@ -13,9 +13,16 @@ from analyzer_project.source_parser.source_parser import get_words_from_sources
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', '--repo', help='link to repository')
+    parser.add_argument('-f', '--func', action='store_true', help='analyse functions')
+    parser.add_argument('-v', '--var', action='store_true', help='analyse variables')
     args = parser.parse_args()
 
-    types_identificators = ['function']
+    types_identificators = []
+    if args.func:
+        types_identificators.append('function')
+    if args.var:
+        types_identificators.append('variable')
+
     source_getter = get_source_getter('github')()
     try:
         repo_dir = source_getter.get_source(args.repo)
