@@ -8,6 +8,7 @@ from analyzer_project.source_getter.source_getter import get_source_getter
 from analyzer_project.files_find import find_files_by_extension
 from analyzer_project.files_read import get_content_files
 from analyzer_project.source_parser.source_parser import get_words_from_sources
+from analyzer_project.morphological_analysis.filters import filter_by_parts_of_speech
 
 
 if __name__ == '__main__':
@@ -15,6 +16,9 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--repo', help='link to repository')
     parser.add_argument('-f', '--func', action='store_true', help='analyse functions')
     parser.add_argument('-v', '--var', action='store_true', help='analyse variables')
+    parser.add_argument('-vb', '--verb', action='store_true', help='analyse verbs')
+    parser.add_argument('-nn', '--noon', action='store_true', help='analyse noons')
+
     args = parser.parse_args()
 
     types_identificators = []
@@ -23,6 +27,8 @@ if __name__ == '__main__':
     if args.var:
         types_identificators.append('variable')
 
+    parts_of_speech = []
+
     source_getter = get_source_getter('github')()
     try:
         repo_dir = source_getter.get_source(args.repo)
@@ -30,7 +36,7 @@ if __name__ == '__main__':
             files = find_files_by_extension(repo_dir, file_ext='.py')
             files_content = get_content_files(files)
             words = get_words_from_sources(files_content, 'python', types_identificators)
-
+            words_filtered = filter_by_parts_of_speech(words, parts_of_speech)
         finally:
             if os.path.exists(repo_dir):
                 shutil.rmtree(repo_dir)
