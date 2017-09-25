@@ -13,6 +13,9 @@ class JsonReport(AbstractReport):
         """
         super().__init__(data_report, headers)
 
+    def __del__(self):
+        super().__del__()
+
     def _make_io_report(self):
         """
         записывает в io_report отчет в строковом виде

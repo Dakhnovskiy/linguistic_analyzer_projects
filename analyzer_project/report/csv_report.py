@@ -6,12 +6,16 @@ from .abstract_report import AbstractReport
 
 
 class CsvReport(AbstractReport):
+
     def __init__(self, data_report, headers):
         """
         :param data_report: данные отчета
         :param headers: список заголовков
         """
         super().__init__(data_report, headers)
+
+    def __del__(self):
+        super().__del__()
 
     def _make_io_report(self):
         """
