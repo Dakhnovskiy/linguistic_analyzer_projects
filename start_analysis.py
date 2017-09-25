@@ -9,6 +9,7 @@ from analyzer_project.files_find import find_files_by_extension
 from analyzer_project.files_read import get_content_files
 from analyzer_project.source_parser.source_parser import get_words_from_sources
 from analyzer_project.morphological_analysis.filters import filter_by_parts_of_speech
+from analyzer_project.morphological_analysis.analyzer import get_top_words
 
 
 if __name__ == '__main__':
@@ -28,6 +29,10 @@ if __name__ == '__main__':
         types_identificators.append('variable')
 
     parts_of_speech = []
+    if args.verb:
+        parts_of_speech.append('verb')
+    if args.noon:
+        parts_of_speech.append('noon')
 
     source_getter = get_source_getter('github')()
     try:
@@ -37,6 +42,8 @@ if __name__ == '__main__':
             files_content = get_content_files(files)
             words = get_words_from_sources(files_content, 'python', types_identificators)
             words_filtered = filter_by_parts_of_speech(words, parts_of_speech)
+            top_words = get_top_words(words_filtered)
+
         finally:
             if os.path.exists(repo_dir):
                 shutil.rmtree(repo_dir)
