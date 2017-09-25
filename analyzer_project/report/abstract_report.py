@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Dmitriy.Dakhnovskiy'
 
+import collections
 from abc import ABCMeta, abstractmethod
 
 
@@ -12,7 +13,7 @@ class AbstractReport:
         :param data_report: данные отчета
         """
 
-        assert isinstance(data_report, dict), 'data_report must be dict'
+        assert isinstance(data_report, collections.Iterable), 'data_report must be iterable'
         self.data_report = data_report
 
     @abstractmethod

@@ -10,7 +10,7 @@ from analyzer_project.files_read import get_content_files
 from analyzer_project.source_parser.source_parser import get_words_from_sources
 from analyzer_project.morphological_analysis.filters import filter_by_parts_of_speech
 from analyzer_project.morphological_analysis.analyzer import get_top_words
-from analyzer_project.report.report import dict_formats_report
+from analyzer_project.report.report import dict_formats_report, make_report
 
 
 if __name__ == '__main__':
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--var', action='store_true', help='analyse variables')
     parser.add_argument('-vb', '--verb', action='store_true', help='analyse verbs')
     parser.add_argument('-nn', '--noon', action='store_true', help='analyse noons')
-    parser.add_argument('-rt', '--reptype', choices=dict_formats_report.keys(), default='console', help='report type')
+    parser.add_argument('-rf', '--repformat', choices=dict_formats_report.keys(), default='console', help='report format')
 
     args = parser.parse_args()
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
             words = get_words_from_sources(files_content, 'python', types_identificators)
             words_filtered = filter_by_parts_of_speech(words, parts_of_speech)
             top_words = get_top_words(words_filtered)
-
+            make_report(top_words, args.repformat)
         finally:
             if os.path.exists(repo_dir):
                 shutil.rmtree(repo_dir)
