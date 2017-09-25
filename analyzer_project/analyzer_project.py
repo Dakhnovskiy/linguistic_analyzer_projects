@@ -3,7 +3,7 @@
 import collections
 from .morphological_analysis.verbs import get_verbs_from_list_word
 from .files_find import find_limited_count_files_by_extension
-from .file_parse import get_content_files, get_source_trees, get_names_functions_without_magic_from_trees
+from .files_read import get_content_files, get_source_trees, get_names_functions_without_magic_from_trees
 
 
 def get_verbs_from_name_function(name_function):

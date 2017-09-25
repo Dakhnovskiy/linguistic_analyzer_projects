@@ -7,6 +7,14 @@ from abc import ABCMeta, abstractmethod
 class AbstractSourceParser:
     __metaclass__ = ABCMeta
 
+    @property
+    def parsed_source(self):
+        """
+        разобранная из исходного кода структура
+        :return: разобранная из исходного кода структура
+        """
+        return self.__parsed_source
+
     def __init__(self, source):
         """
         :param source: исходный код
@@ -39,6 +47,14 @@ class AbstractSourceParser:
         """
         генератор по элементам разобранной структуры
         """
+
+    def __walk_parsed_source(self):
+        """
+        генератор по элементам разобранной структуры
+        """
+        if self.__parsed_source:
+            for element in self._walk_parsed_source():
+                yield element
 
     @staticmethod
     @abstractmethod
@@ -91,7 +107,7 @@ class AbstractSourceParser:
         генератор по идентификаторам с заданным типом
         :param types_identificators: список типов идентификаторов
         """
-        for element in self._walk_parsed_source():
+        for element in self.__walk_parsed_source():
             if self.__element_in_types_identificators(element, types_identificators):
                 yield self._get_element_name(element)
 
@@ -100,6 +116,8 @@ class AbstractSourceParser:
         генератор по словам идентификаторов с заданным типом
         :param types_identificators: список типов идентификаторов
         """
+        assert set(types_identificators).issubset(set(self.__type_identificator_funcs.keys()))
+
         for identificator in self.__get_identificators(types_identificators):
             for word in self._get_words_from_identificator(identificator):
                 yield word
