@@ -10,15 +10,17 @@ from analyzer_project.files_read import get_content_files
 from analyzer_project.source_parser.source_parser import get_words_from_sources
 from analyzer_project.morphological_analysis.filters import filter_by_parts_of_speech
 from analyzer_project.morphological_analysis.analyzer import get_top_words
+from analyzer_project.report.report import dict_formats_report
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--repo', help='link to repository')
+    parser.add_argument('-r', '--repo', required=True, help='link to repository')
     parser.add_argument('-f', '--func', action='store_true', help='analyse functions')
     parser.add_argument('-v', '--var', action='store_true', help='analyse variables')
     parser.add_argument('-vb', '--verb', action='store_true', help='analyse verbs')
     parser.add_argument('-nn', '--noon', action='store_true', help='analyse noons')
+    parser.add_argument('-rt', '--reptype', choices=dict_formats_report.keys(), default='console', help='report type')
 
     args = parser.parse_args()
 
