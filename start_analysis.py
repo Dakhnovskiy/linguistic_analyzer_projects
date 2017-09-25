@@ -45,7 +45,7 @@ if __name__ == '__main__':
             words = get_words_from_sources(files_content, 'python', types_identificators)
             words_filtered = filter_by_parts_of_speech(words, parts_of_speech)
             top_words = get_top_words(words_filtered)
-            make_report(top_words, args.repformat)
+            make_report(top_words, args.repformat, headers=['word', 'count'])
         finally:
             if os.path.exists(repo_dir):
                 shutil.rmtree(repo_dir)

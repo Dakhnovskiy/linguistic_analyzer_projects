@@ -6,12 +6,12 @@ from .abstract_report import AbstractReport
 
 class JsonReport(AbstractReport):
 
-    def __init__(self, data_report):
+    def __init__(self, data_report, headers):
         """
         :param data_report: данные отчета
+        :param headers: список заголовков
         """
-
-        super().__init__(data_report)
+        super().__init__(data_report, headers)
 
     def make_report(self):
         """

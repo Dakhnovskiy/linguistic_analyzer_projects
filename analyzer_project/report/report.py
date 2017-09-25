@@ -25,11 +25,12 @@ def get_cls_report(format_report):
     return dict_formats_report[format_report]
 
 
-def make_report(data_report, format_report):
+def make_report(data_report, format_report, headers):
     """
     Формирует отчет
     :param data_report: данные отчета
     :param format_report: формат отчета
+    :param headers: список заголовков
     """
-    report = get_cls_report(format_report)(data_report)
+    report = get_cls_report(format_report)(data_report, headers)
     report.make_report()
