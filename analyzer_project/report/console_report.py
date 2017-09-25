@@ -13,8 +13,14 @@ class ConsoleReport(AbstractReport):
         """
         super().__init__(data_report, headers)
 
+    def _make_io_report(self):
+        """
+        записывает в io_report отчет в строковом виде
+        """
+        self.io_report.write(tabulate.tabulate(self.data_report, self.headers))
+
     def make_report(self):
         """
         Сформировать отчёт
         """
-        print(tabulate.tabulate(self.data_report, self.headers))
+        print(self.io_report.getvalue())
