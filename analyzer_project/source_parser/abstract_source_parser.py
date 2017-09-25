@@ -22,7 +22,7 @@ class AbstractSourceParser:
 
         self.__type_identificator_funcs = {
             'variable': self._is_variable,
-            'functions': self._parse_source
+            'function': self._is_function
         }
 
         self.__parse_source(source)
