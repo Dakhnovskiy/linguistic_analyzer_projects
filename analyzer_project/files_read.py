@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+__author__ = 'Dmitriy.Dakhnovskiy'
 
 
 def get_content_files(file_names):

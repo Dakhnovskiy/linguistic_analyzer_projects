@@ -116,7 +116,8 @@ class AbstractSourceParser:
         генератор по словам идентификаторов с заданным типом
         :param types_identificators: список типов идентификаторов
         """
-        assert set(types_identificators).issubset(set(self.__type_identificator_funcs.keys()))
+        assert set(types_identificators).issubset(set(self.__type_identificator_funcs.keys())), \
+            'types_identificators must be subset ({0})'.format(', '.join(self.__type_identificator_funcs.keys()))
 
         for identificator in self.__get_identificators(types_identificators):
             for word in self._get_words_from_identificator(identificator):
