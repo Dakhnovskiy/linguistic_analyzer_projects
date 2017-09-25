@@ -3,9 +3,10 @@ __author__ = 'Dmitriy.Dakhnovskiy'
 
 import csv
 from .abstract_report import AbstractReport
+from .save_io_to_file_mixin import SaveIoToFileMixin
 
 
-class CsvReport(AbstractReport):
+class CsvReport(AbstractReport, SaveIoToFileMixin):
 
     def __init__(self, data_report, headers):
         """
@@ -13,6 +14,7 @@ class CsvReport(AbstractReport):
         :param headers: список заголовков
         """
         super().__init__(data_report, headers)
+        self.file_name = '/tmp/tmp.csv'
 
     def __del__(self):
         super().__del__()
@@ -29,4 +31,4 @@ class CsvReport(AbstractReport):
         """
         Сформировать отчёт
         """
-        print(self.io_report.getvalue())
+        self.save_to_file()

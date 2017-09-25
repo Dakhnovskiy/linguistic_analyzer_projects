@@ -3,15 +3,17 @@ __author__ = 'Dmitriy.Dakhnovskiy'
 
 import json
 from .abstract_report import AbstractReport
+from .save_io_to_file_mixin import SaveIoToFileMixin
 
 
-class JsonReport(AbstractReport):
+class JsonReport(AbstractReport, SaveIoToFileMixin):
     def __init__(self, data_report, headers):
         """
         :param data_report: данные отчета
         :param headers: список заголовков
         """
         super().__init__(data_report, headers)
+        self.file_name = '/tmp/tmp.json'
 
     def __del__(self):
         super().__del__()
@@ -27,4 +29,4 @@ class JsonReport(AbstractReport):
         """
         Сформировать отчёт
         """
-        print(self.io_report.getvalue())
+        self.save_to_file()
