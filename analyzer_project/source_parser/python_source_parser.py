@@ -38,6 +38,7 @@ class PythonSourceParser(AbstractSourceParser):
         проаверяет является ли элемент структуры переменной
         :param element: элемент
         """
+        # TODO Реализация метода
         return False
 
     @staticmethod
