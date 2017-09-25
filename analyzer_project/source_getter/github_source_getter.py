@@ -8,7 +8,7 @@ from git import Repo
 class GithubSourceGetter(AbstractSourceGetter):
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
     def _get_source(self, repo_url, repo_dir):
         """
