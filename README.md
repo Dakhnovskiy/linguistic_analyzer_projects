@@ -1,10 +1,14 @@
-# analyzer_projects
-Библиотека для анализа питон-проектов на употребление глаголов в именах функций.
+# linguistic_analyzer_projects
+start_analysis.py - скрипт для анализа репозитория на наличие глаголов/существительных в именах функций/переменных функций
 
-Пример импользования библиотеки: example.py
+usage: start_analysis.py [-h] -r REPO [-f] [-v] [-vb] [-nn]
+                         [-rf {console,json,csv}]
 
-В каждом из указанных проектов находятся не более 10 наиболее часто встречающихся в именах функций глаголов.
-
-Выводится общее количество и количество уникальных найденных глаголов.
-
-Выводятся первые 200 наиболее часто повторяемые в найденных глаголы, с указанием количества повторений
+optional arguments:
+  -h, --help            show this help message and exit
+  -r REPO, --repo REPO  link to repository
+  -f, --func            analyse functions
+  -v, --var             analyse variables
+  -vb, --verb           analyse verbs
+  -nn, --noon           analyse noons
+  -rf {console,json,csv}, --repformat {console,json,csv} report format
