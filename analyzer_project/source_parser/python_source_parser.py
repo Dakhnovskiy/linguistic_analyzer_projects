@@ -68,4 +68,9 @@ class PythonSourceParser(AbstractSourceParser):
         получить наименование(идентификатор) элемента разобранной структуры
         :param element: элемент структуры
         """
-        return element.name.lower()
+        element_name = None
+        if hasattr(element, 'name'):
+            element_name = element.name.lower()
+        elif hasattr(element, 'id'):
+            element_name = element.id.lower()
+        return element_name
