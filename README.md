@@ -12,3 +12,6 @@ optional arguments:
   -vb, --verb           analyse verbs
   -nn, --noon           analyse noons
   -rf {console,json,csv}, --repformat {console,json,csv} report format
+
+Example:
+start_analysis.py --repo https://github.com/Dakhnovskiy/linguistic_analyzer_projects -f -nn -vb -rf console
