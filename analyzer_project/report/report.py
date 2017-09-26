@@ -33,4 +33,7 @@ def make_report(data_report, format_report, headers):
     :param headers: список заголовков
     """
     report = get_cls_report(format_report)(data_report, headers)
-    report.make_report()
+    try:
+        report.make_report()
+    finally:
+        del report

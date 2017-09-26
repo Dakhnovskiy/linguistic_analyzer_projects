@@ -14,7 +14,7 @@ class CsvReport(AbstractReport, SaveIoToFileMixin):
         :param headers: список заголовков
         """
         super().__init__(data_report, headers)
-        self.file_name = '/tmp/tmp.csv'
+        self.file_name = 'report.csv'
 
     def __del__(self):
         super().__del__()
