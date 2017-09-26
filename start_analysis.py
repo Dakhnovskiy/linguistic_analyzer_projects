@@ -4,6 +4,7 @@ __author__ = 'Dmitriy.Dakhnovskiy'
 import argparse
 import shutil
 import os
+import itertools
 from analyzer_project.source_getter.source_getter import get_source_getter
 from analyzer_project.files_find import find_files_by_extension
 from analyzer_project.files_read import get_content_files
@@ -20,21 +21,13 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--var', action='store_true', help='analyse variables')
     parser.add_argument('-vb', '--verb', action='store_true', help='analyse verbs')
     parser.add_argument('-nn', '--noon', action='store_true', help='analyse noons')
-    parser.add_argument('-rf', '--repformat', choices=dict_formats_report.keys(), default='console', help='report format')
+    parser.add_argument('-rf', '--repformat', choices=dict_formats_report.keys(), default='console',
+                        help='report format')
 
     args = parser.parse_args()
 
-    types_identificators = []
-    if args.func:
-        types_identificators.append('function')
-    if args.var:
-        types_identificators.append('variable')
-
-    parts_of_speech = []
-    if args.verb:
-        parts_of_speech.append('verb')
-    if args.noon:
-        parts_of_speech.append('noon')
+    types_identificators = list(itertools.compress(['function', 'variable'], [args.func, args.var]))
+    parts_of_speech = list(itertools.compress(['verb', 'noon'], [args.verb, args.noon]))
 
     source_getter = get_source_getter('github')()
     try:
