@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Dmitriy.Dakhnovskiy'
 
+import itertools
 from abc import ABCMeta, abstractmethod
 
 
 class AbstractSourceParser:
     __metaclass__ = ABCMeta
-
-    @property
-    def parsed_source(self):
-        """
-        разобранная из исходного кода структура
-        :return: разобранная из исходного кода структура
-        """
-        return self.__parsed_source
 
     def __init__(self, source):
         """
@@ -21,8 +14,8 @@ class AbstractSourceParser:
         """
 
         self.__type_identificator_funcs = {
-            'variable': self._is_variable,
-            'function': self._is_function
+            'variable': self.__get_local_variables_from_functions,
+            'function': self.__get_functions
         }
 
         self.__parse_source(source)
@@ -46,7 +39,7 @@ class AbstractSourceParser:
     @abstractmethod
     def _walk_element(element):
         """
-        генератор по элементам разобранной структуры
+        генератор по элементам переданного элемента
         :param element: элемент разобранной структуры
         """
 
@@ -74,6 +67,36 @@ class AbstractSourceParser:
         :param element: элемент
         """
 
+    def __get_functions(self):
+        """
+        Генератор по функциям
+        """
+        for element in self.__walk_parsed_source():
+            if self._is_function(element):
+                yield element
+
+    def __get_local_variables_from_function(self, function):
+        """
+        генератор по переменным объявленным внутри функции
+        :param function: функция(ast объект)
+        """
+        for element in self._walk_element(function):
+            if self._is_variable(element):
+                yield element
+
+    def __get_local_variables_from_functions(self):
+        """
+        генератор по локальным переменным функций
+        """
+
+        # TODO из-за повторного обхода вложенныъ функций приходится выбирать уникальные. Подумать над проблемой
+        set_variables = set()
+        for function in self.__get_functions():
+            for variable in self.__get_local_variables_from_function(function):
+                set_variables.add(variable)
+
+        yield from set_variables
+
     @staticmethod
     @abstractmethod
     def _get_words_from_identificator(identificator):
@@ -90,28 +113,14 @@ class AbstractSourceParser:
         :param element: элемент структуры
         """
 
-    def __element_in_types_identificators(self, element, types_identificators):
-        """
-        Проверяет является ли элемент разобранной структуры одним из типов идентификаторов
-        :param element: элемент структуры
-        :param types_identificators: список типов идентификаторов для проверки
-        :return: true/false
-        """
-        ret = False
-        for type_identificator in types_identificators:
-            ret = self.__type_identificator_funcs[type_identificator](element)
-            if ret:
-                break
-        return ret
-
     def __get_identificators(self, types_identificators):
         """
         генератор по идентификаторам с заданным типом
         :param types_identificators: список типов идентификаторов
         """
-        for element in self.__walk_parsed_source():
-            if self.__element_in_types_identificators(element, types_identificators):
-                yield self._get_element_name(element)
+        gens = [self.__type_identificator_funcs[types_identificator]() for types_identificator in types_identificators]
+        elements = itertools.chain(*gens)
+        yield from (self._get_element_name(element) for element in elements)
 
     def get_words(self, types_identificators):
         """
@@ -122,5 +131,4 @@ class AbstractSourceParser:
             'types_identificators must be subset ({0})'.format(', '.join(self.__type_identificator_funcs.keys()))
 
         for identificator in self.__get_identificators(types_identificators):
-            for word in self._get_words_from_identificator(identificator):
-                yield word
+            yield from self._get_words_from_identificator(identificator)
