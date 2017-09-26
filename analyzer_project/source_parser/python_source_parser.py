@@ -26,11 +26,13 @@ class PythonSourceParser(AbstractSourceParser):
 
         return parsed_source
 
-    def _walk_parsed_source(self):
+    @staticmethod
+    def _walk_element(element):
         """
         генератор по элементам разобранной структуры
+        :param element: элемент разобранной структуры
         """
-        return ast.walk(self.parsed_source)
+        return ast.walk(element)
 
     @staticmethod
     def _is_variable(element):
@@ -38,8 +40,7 @@ class PythonSourceParser(AbstractSourceParser):
         проаверяет является ли элемент структуры переменной
         :param element: элемент
         """
-        # TODO Реализация метода
-        return False
+        return isinstance(element, ast.Name) and not isinstance(element.ctx, ast.Load)
 
     @staticmethod
     def _is_function(element):

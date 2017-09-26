@@ -42,10 +42,12 @@ class AbstractSourceParser:
         """
         self.__parsed_source = self._parse_source(source)
 
+    @staticmethod
     @abstractmethod
-    def _walk_parsed_source(self):
+    def _walk_element(element):
         """
         генератор по элементам разобранной структуры
+        :param element: элемент разобранной структуры
         """
 
     def __walk_parsed_source(self):
@@ -53,7 +55,7 @@ class AbstractSourceParser:
         генератор по элементам разобранной структуры
         """
         if self.__parsed_source:
-            for element in self._walk_parsed_source():
+            for element in self._walk_element(self.__parsed_source):
                 yield element
 
     @staticmethod
