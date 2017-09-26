@@ -13,6 +13,7 @@ class JsonReport(AbstractReport, SaveIoToFileMixin):
         :param headers: список заголовков
         """
         super().__init__(data_report, headers)
+        # TODO убрать хардкод
         self.file_name = 'report.json'
 
     def __del__(self):
